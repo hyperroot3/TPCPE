@@ -1,16 +1,35 @@
-# This is a sample Python script.
+'''
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+basic chemical bonding balancer
+
+'''
+import re
+import chemparse as cp
+
+# input
+
+print("Chemical Bonding Balancer\ntype 'help' to see input examples")
+print("ex) 2H2 + 4O2 > H2O\n")
+# appropriate examples should be made and printed
+
+user_input = str(input('Enter Reactants and Products:'))
+
+reactantsInput = user_input.split('>')[0]
+productsInput = user_input.split('>')[1]
+# index lists to split reactants / products
+
+print("Reactants:", reactantsInput)
+print("Products:", productsInput)
+
+# data processing
+reactants = reactantsInput.split('+')
+reactants = [i.strip() for i in reactants]
+
+products = productsInput.split('+')
+products = [i.strip() for i in products]
+# index lists to get individual compounds and remove spaces
+
+print("Reactants:", reactants)
+print("Products:", products)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharmxxx')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
