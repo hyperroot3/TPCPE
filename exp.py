@@ -39,3 +39,4 @@ columns = len(parsed_reactants) + len(parsed_products)
 print("rows: ", rows)
 print("columns: ", columns)
 
+print()
