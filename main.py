@@ -29,6 +29,8 @@ products = productsInput.split('+')
 products = [i.strip() for i in products]
 # index lists to get individual compounds and remove spaces
 
+
+
 print("Reactants:", reactants)
 print("Products:", products)
 
