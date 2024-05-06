@@ -24,7 +24,13 @@ def count_atoms(parsed_formulas):
     return element_counts
 
 
-def zero_matrix(rows, columns):
+def matrix_size(elements_kinds, reactants_terms, products_terms):
+    rows_user = len(elements_kinds)
+    columns_user = len(reactants_terms) + len(products_terms)
+    return rows_user, columns_user
+
+
+def generate_zero_matrix(rows, columns):
     row_echelon = []
     for i in range(rows):
         row = []
@@ -33,29 +39,36 @@ def zero_matrix(rows, columns):
         row_echelon.append(row)
     return row_echelon
 
+
+def fill_matrix(parsed_reactants, parsed_products, unique_elements, zero_matrix):
+
+    for i, reactant in parsed_reactants:
+        for element, count in reactant.items():
+            zero_matrix[unique_elements.index(element)][i] = -count
+
+    for i, product in parsed_products:
+        for element, count in product.items():
+            zero_matrix[unique_elements.index(element)][i + len(parsed_reactants)] = count
+    return zero_matrix
+
+
+
 def main():
 
     equation_user = input("Enter chemical equation: ")
     parsed_reactants_user, parsed_products_user, unique_elements_user = parse_equation(equation_user)
     reactant_counts = count_atoms(parsed_reactants_user)
     product_counts = count_atoms(parsed_products_user)
+
+    matrix_size_user = matrix_size(unique_elements_user, parsed_reactants_user, parsed_products_user)
+    zero_matrix = generate_zero_matrix(matrix_size_user[0], matrix_size_user[1])
+
+    print(zero_matrix)
+
     print("Elements:", unique_elements_user)
     print("\nReactant Atom Counts:", reactant_counts)
     print("Product Atom Counts:", product_counts)
+    print(parsed_products_user)
 
-
-
-main()
-
-
-# Print the output
-
-# print(parsed_reactants)
-# print(parsed_products)
-
-rows_user = len(unique_elements_user)
-columns_user = len(parsed_reactants_user) + len(parsed_products_user)
-
-print("rows: ", rows_user)
-print("columns: ", columns_user)
-
+if __name__ == "__main__":
+    main()
