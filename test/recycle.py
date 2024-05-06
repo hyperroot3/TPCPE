@@ -43,7 +43,7 @@ def count_atoms(parsed_formulas):
 
 def matrix_size(elements_kinds, reactants_terms, products_terms):
     rows_user = len(elements_kinds)
-    columns_user = len(reactants_terms) + len(products_terms) + 1  # Augmented matrix
+    columns_user = len(reactants_terms) + len(products_terms) + 1
     return rows_user, columns_user
 
 
@@ -55,23 +55,6 @@ def generate_zero_matrix(rows, columns):
             row.append(0)
         row_echelon.append(row)
     return row_echelon
-
-
-def fill_matrix(parsed_reactants, parsed_products, unique_elements, zero_matrix):
-
-    for i, reactant in enumerate(parsed_reactants):
-        for element, count in reactant.items():
-            zero_matrix[unique_elements.index(element)][i] = -count
-
-    for i, product in enumerate(parsed_products):
-        for element, count in product.items():
-            zero_matrix[unique_elements.index(element)][i + len(parsed_reactants)] = count
-
-    # Augment the matrix with zeros on the right side for Gaussian elimination
-    for i in range(len(zero_matrix)):
-        zero_matrix[i].append(0)
-
-    return zero_matrix
 
 
 def gaussian_elimination(matrix):
@@ -102,29 +85,3 @@ def gaussian_elimination(matrix):
 
     return matrix
 
-
-def main():
-
-    equation_user = input("Enter chemical equation: ")
-    parsed_reactants_user, parsed_products_user, unique_elements_user = parse_equation(equation_user)
-    reactant_counts = count_atoms(parsed_reactants_user)
-    product_counts = count_atoms(parsed_products_user)
-
-    matrix_size_user = matrix_size(unique_elements_user, parsed_reactants_user, parsed_products_user)
-    zero_matrix = generate_zero_matrix(matrix_size_user[0], matrix_size_user[1])
-
-    filled_matrix = fill_matrix(parsed_reactants_user, parsed_products_user, unique_elements_user, zero_matrix)
-
-    # Perform Gaussian elimination
-    reduced_row_echelon = gaussian_elimination(filled_matrix)
-
-    print("Stoichiometric Matrix (Augmented):")
-    for row in reduced_row_echelon:
-        print(row)
-
-    print("\nElements:", unique_elements_user)
-    print("\nReactant Atom Counts:", reactant_counts)
-    print("Product Atom Counts:", product_counts)
-
-if __name__ == "__main__":
-    main()
